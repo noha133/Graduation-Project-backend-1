@@ -14,8 +14,8 @@ router.register('teachers', views.TeacherView)
 
 urlpatterns = [
     path('', TestView.as_view(), name='test'),
-    path('api/token/', obtain_auth_token, name='obtain-token'),
-    path('rest-auth/', include('rest_auth.urls'))
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls'))
 ]
 
 urlpatterns+= router.urls
