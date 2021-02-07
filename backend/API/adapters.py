@@ -1,5 +1,5 @@
 from allauth.account.adapter import DefaultAccountAdapter
-
+from.models import *
 class CustomUserAccountAdapter(DefaultAccountAdapter):
 
     def save_user(self, request, user, form, commit=True):

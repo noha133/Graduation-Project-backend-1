@@ -1,17 +1,17 @@
-from django.db.models.signals import post_save
-from django.contrib.auth.models import Group
-
+from django.db.models import signals
+from django.dispatch import receiver
+from django.dispatch import dispatcher
 from .models import *
 
+@receiver(models.signals.post_save, sender=User)
 def user_created(sender, instance, created, **kwargs):
     if created:
         user_type = instance.user_type
-        if user_type == 1:
+        if user_type == "1":
             new_student = Student_Info(user = instance)
-        elif user_type == 2 :
+        elif user_type == "2" :
             new_teacher = Teacher_Info(user = instance)
-        elif user_type == 3:
+        elif user_type == "3":
             new_supervisor = Supervisor_Info(user=instance)
 
-
-post_save.connect(user_created, sender=User)
+# dispatcher.connect(user_created, signal=signals.post_save, sender=User)

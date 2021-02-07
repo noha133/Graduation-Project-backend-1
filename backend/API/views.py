@@ -8,8 +8,8 @@ from .serializers import *
 
 
 class TestView(APIView):
-    permission_classes = (IsAuthenticated, )
-# Create your views here.
+    # permission_classes = (IsAuthenticated, )
+
     def get(self, request, *args, **kwargs):
         qs = Student_Info.objects.all()
         post = qs.first()

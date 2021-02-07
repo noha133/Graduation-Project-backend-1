@@ -21,14 +21,14 @@ class Student_Info(models.Model):
     grade = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 class Teacher_Info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     subject = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 class Supervisor_Info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
