@@ -5,11 +5,11 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
   USER_TYPE_CHOICES = (
-      (1, 'student'),
-      (2, 'teacher'),
-      (3, 'supervisor'),
+      ("1", 'student'),
+      ("2", 'teacher'),
+      ("3", 'supervisor'),
   )
-  user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES,default=2)
+  user_type = models.CharField(choices=USER_TYPE_CHOICES,default="2",null=False , max_length=10)
 
   def __str__(self):
       return self.username

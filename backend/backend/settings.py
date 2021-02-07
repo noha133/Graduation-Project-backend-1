@@ -38,15 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'dj_rest_auth',
-
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'dj_rest_auth.registration',
-    'API',
+    'API.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -127,18 +126,18 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'API.User'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
+ACCOUNT_USERNAME_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
-
 ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_ADAPTER = 'API.adapters.CustomUserAccountAdapter'
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.TokenAuthentication'
-#     ]
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ]
+}
