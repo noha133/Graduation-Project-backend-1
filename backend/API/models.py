@@ -15,7 +15,7 @@ class User(AbstractUser):
       return self.username
 
 
-class department(models.Model):
+class departments(models.Model):
     name = models.CharField(max_length=100)
 
 
@@ -33,7 +33,7 @@ class Student_Info(models.Model):
 class Teacher_Info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=100)
-    department = models.ForeignKey(department, null=True, on_delete=models.SET_NULL)
+    departments = models.ForeignKey(departments, null=True, on_delete=models.SET_NULL)
 
 
     def __str__(self):
@@ -43,7 +43,7 @@ class Teacher_Info(models.Model):
 class Supervisor_Info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     subject = models.CharField(max_length=100)
-    department = models.ForeignKey(department, null=True, on_delete=models.SET_NULL)
+    departments = models.ForeignKey(departments, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.user

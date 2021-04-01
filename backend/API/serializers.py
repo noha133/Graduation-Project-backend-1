@@ -3,9 +3,9 @@ from .models import *
 
 
 
-class departmentSerializer(serializers.ModelSerializer):
+class departmentsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = department
+        model = departments
         fields = '__all__'
 
 
