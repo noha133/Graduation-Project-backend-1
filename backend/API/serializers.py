@@ -28,7 +28,7 @@ class Supervisor_InfoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class Course_InfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course_Info
-        fields = '__all__'
+# class Course_InfoSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Course_Info
+#         fields = '__all__'

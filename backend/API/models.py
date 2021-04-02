@@ -49,17 +49,17 @@ class Supervisor_Info(models.Model):
 
     def __str__(self):
         return self.user
+# #
+# class Course_Info(models.Model):
+#     id = models.IntegerField(primary_key=True)
+#     name = models.CharField(max_length=100)
+#     semester = models.CharField(max_length=100)
+#     Student_Info = models.ManyToManyField(Student_Info)
+#     Teacher_Info = models.ManyToManyField(Teacher_Info)
+#     Supervisor_Info = models.ForeignKey(Supervisor_Info, null=True, on_delete=models.SET_NULL)
 #
-class Course_Info(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
-    semester = models.CharField(max_length=100)
-    Student_Info = models.ManyToManyField(Student_Info)
-    Teacher_Info = models.ManyToManyField(Teacher_Info)
-    Supervisor_Info = models.ForeignKey(Supervisor_Info, null=True, on_delete=models.SET_NULL)
-
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
 
 
