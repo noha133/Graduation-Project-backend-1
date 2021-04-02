@@ -15,8 +15,9 @@ class TestView(APIView):
     def get(self, request, *args, **kwargs):
         qs = Student_Info.objects.all()
         students = StudentSerializer(qs , many=True)
-        qs = Teacher_Info.objects.all()
-        teachers = TeacherSerializer(qs,many=True)
+
+        #qs = Course_Info.objects.name(Course_Info.objects.semester)
+        #teachers = TeacherSerializer(qs,many=True)
         return Response(students.data)
 
     def post(self, request, *args, **kwargs):
