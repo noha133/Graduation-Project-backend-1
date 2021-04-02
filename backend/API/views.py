@@ -6,8 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import *
 from .serializers import *
 from rest_framework import mixins
-
-
+from rest_framework.decorators import api_view
 
 
 class TestView(APIView):
@@ -15,10 +14,10 @@ class TestView(APIView):
 
     def get(self, request, *args, **kwargs):
         qs = Student_Info.objects.all()
-        post = qs.first()
-        # serializer = PostSerializer(qs, many=True)
-        serializer = StudentSerializer(post)
-        return Response(serializer.data)
+        students = StudentSerializer(qs , many=True)
+        qs = Teacher_Info.objects.all()
+        teachers = TeacherSerializer(qs,many=True)
+        return Response(students.data)
 
     def post(self, request, *args, **kwargs):
         serializer = StudentSerializer(data=request.data)
@@ -40,3 +39,15 @@ class StudentView(viewsets.ModelViewSet):
 class TeacherView(viewsets.ModelViewSet):
     queryset = Teacher_Info.objects.all()
     serializer_class = TeacherSerializer
+
+
+# @api_view(['GET', 'PUT', 'DELETE'])
+# def test_view(request, pk):
+#
+#     qs = Teacher_Info.objects.all()
+#     qs_ser
+
+
+    # if request.method == 'GET':
+    #     serializer = SnippetSerializer(snippet)
+    #     return Response(serializer.data)
