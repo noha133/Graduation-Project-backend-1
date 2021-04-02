@@ -26,6 +26,7 @@ class Student_Info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=100)
     grade = models.CharField(max_length=100)
+    semester = models.CharField(max_length=100)
 
     def __str__(self):
         return self.user
@@ -34,6 +35,7 @@ class Teacher_Info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=100)
     departments = models.ForeignKey(departments, null=True, on_delete=models.SET_NULL)
+
 
 
     def __str__(self):
