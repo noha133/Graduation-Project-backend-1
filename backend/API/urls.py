@@ -1,6 +1,7 @@
 from django.urls import path , include
 from . import views
 from rest_framework.routers import DefaultRouter
+from rest_framework.urlpatterns import format_suffix_patterns
 from . views import TestView
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -13,14 +14,15 @@ router.register('teachers', views.TeacherView)
 #router.register('test', views.TestView)
 
 urlpatterns = [
-    path('', TestView.as_view(), name='test'),
+    #path('<int:pk>', TestView.as_view(), name='test'),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls'))
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('student/<int:pk>/', views.TestView.as_view()),
 ]
 
-urlpatterns+= router.urls
+#urlpatterns+= router.urls
 
-
+urlpatterns = format_suffix_patterns(urlpatterns)
 # # # Authentication # # #
 
 # /dj-rest-auth/login/ (POST)

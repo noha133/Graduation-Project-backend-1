@@ -33,3 +33,9 @@ class Course_InfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course_Info
         fields = '__all__'
+
+
+class Semester_InfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Semester_Info
+        fields = '__all__'
