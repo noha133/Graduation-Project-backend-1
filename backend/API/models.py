@@ -40,7 +40,7 @@ class Student_Info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=100)
     grade = models.CharField(max_length=100)
-    semester = models.CharField(max_length=100,null=False)
+    #semester = models.CharField(max_length=100,null=False)
 
     def __str__(self):
         return str(self.user)
