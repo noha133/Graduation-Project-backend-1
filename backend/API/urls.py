@@ -2,22 +2,24 @@ from django.urls import path , include
 from . import views
 from rest_framework.routers import DefaultRouter
 from rest_framework.urlpatterns import format_suffix_patterns
-from . views import TestView
 from rest_framework.authtoken.views import obtain_auth_token
 
-router = DefaultRouter()
-router.register('students', views.StudentView)
+# router = DefaultRouter()
+# router.register('students', views.StudentView)
 # GET  /students -- JSON Array of all students
 # POST /students -- request body should have student object
 # GET  /students/<pk> -- json object of student of id pk
-router.register('teachers', views.TeacherView)
+# router.register('teachers', views.TeacherView)
 #router.register('test', views.TestView)
 
 urlpatterns = [
     #path('<int:pk>', TestView.as_view(), name='test'),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('student/<int:pk>/', views.TestView.as_view()),
+    path('student/', views.StudentView.as_view()),
+    path('student/<int:pk>/', views.StudentView.as_view()),
+    path('teacher/<int:pk>/', views.TeacherView.as_view()),
+    path('supervisor/<int:pk>/', views.SupervisorView.as_view()),
 ]
 
 #urlpatterns+= router.urls
