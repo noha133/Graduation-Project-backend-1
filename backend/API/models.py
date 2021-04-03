@@ -58,6 +58,7 @@ class Student_Info(models.Model):
     grade = models.CharField(max_length=100)
     Semester_Info = models.ForeignKey(Semester_Info, null=True, on_delete=models.SET_NULL)
     #semester = models.CharField(max_length=100,null=False)
+    #semester = models.CharField(max_length=100,null=False)
 
 
     def __str__(self):
