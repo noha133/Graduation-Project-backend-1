@@ -44,4 +44,8 @@ class Semester_InfoSerializer(serializers.ModelSerializer):
         model = Semester_Info
         fields = '__all__'
 
+class Grades_InfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grade
+        fields = ['Course_Info', 'number']
 

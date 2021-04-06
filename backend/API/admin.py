@@ -9,6 +9,7 @@ admin.site.register(Supervisor_Info)
 admin.site.register(Course_Info)
 admin.site.register(departments)
 admin.site.register(Semester_Info)
+admin.site.register(Grade)
 
 
 

@@ -127,6 +127,18 @@ class CourseView(APIView):
         serializer = Course_InfoSerializer2(courses, many=True)
         return Response(serializer.data)
 
+
+class ReportView(APIView):
+    def get_object(self, pk):
+        student = Student_Info.objects.get(pk=pk)
+        return student
+
+    def get(self, request, pk, format=None):
+        student = self.get_object(pk)
+        grades = Grade.objects.filter(Student = student)
+        serializer = Grades_InfoSerializer(grades, many=True)
+        return Response(serializer.data)
+
 # class StudentView(viewsets.ModelViewSet):
 #     queryset = Student_Info.objects.all()
 #     serializer_class = StudentSerializer
