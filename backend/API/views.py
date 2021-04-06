@@ -114,11 +114,18 @@ class SupervisorView(APIView):
         supervisor = self.get_object(pk)
         supervisor.delete()
 
-# class StudentView(viewsets.GenericViewSet,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,mixins.ListModelMixin,):
-#     queryset1 = Student_Info.objects.all()
-#     queryset2 = Course_Info.objects.values_list('name')
-#     queryset1.union(queryset2).order_by('semester')
-#     serializer_class = StudentSerializer.data + Course_InfoSerializer
+
+
+class CourseView(APIView):
+    def get_object(self, pk):
+        student = Student_Info.objects.get(pk=pk)
+        return student
+
+    def get(self, request, pk, format=None):
+        student = self.get_object(pk)
+        courses = Course_Info.objects.filter( semester = student.semester_number.number )
+        serializer = Course_InfoSerializer2(courses, many=True)
+        return Response(serializer.data)
 
 # class StudentView(viewsets.ModelViewSet):
 #     queryset = Student_Info.objects.all()
@@ -132,7 +139,7 @@ class SupervisorView(APIView):
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def test_view(request, pk):
 #
-#     qs = Teacher_Info.objects.all()
+#     qs = Teacher_Info.objects.all()/
 #     qs_ser
 
 

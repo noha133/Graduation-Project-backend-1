@@ -3,14 +3,16 @@ from . import views
 from rest_framework.routers import DefaultRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework.routers import DefaultRouter
 
 # router = DefaultRouter()
-# router.register('students', views.StudentView)
-# GET  /students -- JSON Array of all students
-# POST /students -- request body should have student object
-# GET  /students/<pk> -- json object of student of id pk
-# router.register('teachers', views.TeacherView)
-#router.register('test', views.TestView)
+# router.register('course', views.Viewsss)
+# # GET  /students -- JSON Array of all students
+# # POST /students -- request body should have student object
+# # GET  /students/<pk> -- json object of student of id pk
+# # router.register('teachers', views.TeacherView)
+# #router.register('test', views.TestView)
+#
 
 urlpatterns = [
     #path('<int:pk>', TestView.as_view(), name='test'),
@@ -20,11 +22,13 @@ urlpatterns = [
     path('student/<int:pk>/', views.StudentView.as_view()),
     path('teacher/<int:pk>/', views.TeacherView.as_view()),
     path('supervisor/<int:pk>/', views.SupervisorView.as_view()),
+    # path('Reem/', views.ReemView.as_view()),
+    path('courses/<int:pk>/', views.CourseView.as_view()),
 ]
 
-#urlpatterns+= router.urls
+# urlpatterns+= router.urls
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+
 # # # Authentication # # #
 
 # /dj-rest-auth/login/ (POST)
