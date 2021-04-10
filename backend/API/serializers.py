@@ -49,3 +49,12 @@ class Grades_InfoSerializer(serializers.ModelSerializer):
         model = Grade
         fields = ['Course_Info', 'number']
 
+class TeacherClassesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeacherClasses
+        fields = ['Course_Info', 'Class']
+
+class ToDoListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ToDoList
+        fields = ['Course_Info', 'Class', 'Text']

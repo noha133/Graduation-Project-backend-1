@@ -22,8 +22,13 @@ urlpatterns = [
     path('student/<int:pk>/', views.StudentView.as_view()),
     path('teacher/<int:pk>/', views.TeacherView.as_view()),
     path('supervisor/<int:pk>/', views.SupervisorView.as_view()),
-    path('courses/<int:pk>/', views.CourseView.as_view()),
+    path('scourses/<int:pk>/', views.StudentCourseView.as_view()),
+    path('scourses/', views.StudentCourseView.as_view()),
+    path('tcourses/<int:pk>/', views.TeacherCourseView.as_view()),
+    path('tcourses/', views.TeacherCourseView.as_view()),
     path('grades/<int:pk>/', views.ReportView.as_view()),
+    path('grades/', views.ReportView.as_view()),
+    path('todolist/<int:pk>/', views.ToDoListView.as_view()),
 ]
 
 # urlpatterns+= router.urls

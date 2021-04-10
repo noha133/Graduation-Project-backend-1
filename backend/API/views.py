@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -110,13 +108,13 @@ class SupervisorView(APIView):
             serializer.save()
             return Response(serializer.data)
 
-    # def delete(self, request, pk, format=None):
-    #     supervisor = self.get_object(pk)
-    #     supervisor.delete()
+    def delete(self, request, pk, format=None):
+        supervisor = self.get_object(pk)
+        supervisor.delete()
 
 
 
-class CourseView(APIView):
+class StudentCourseView(APIView):
     def get_object(self, pk):
         student = Student_Info.objects.get(pk=pk)
         return student
@@ -126,6 +124,24 @@ class CourseView(APIView):
         courses = Course_Info.objects.filter( semester = student.semester_number.number )
         serializer = Course_InfoSerializer2(courses, many=True)
         return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = Course_InfoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        courses = self.get_object(pk)
+        serializer = Course_InfoSerializer(courses, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def delete(self, request, pk, format=None):
+        courses = self.get_object(pk)
+        courses.delete()
+
 
 
 class ReportView(APIView):
@@ -139,6 +155,80 @@ class ReportView(APIView):
         serializer = Grades_InfoSerializer(grades, many=True)
         return Response(serializer.data)
 
+    def post(self, request, format=None):
+        serializer = Grades_InfoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        grades = self.get_object(pk)
+        serializer = Grades_InfoSerializer(grades, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def delete(self, request, pk, format=None):
+        grades = self.get_object(pk)
+        grades.delete()
+
+
+class TeacherCourseView(APIView):
+    def get_object(self, pk):
+        teacher = Teacher_Info.objects.get(pk=pk)
+        return teacher
+
+    def get(self, request, pk, format=None):
+        teacher = self.get_object(pk)
+        courses = TeacherClasses.objects.filter( Teacher = teacher )
+        serializer = TeacherClassesSerializer(courses, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TeacherClassesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        courses = self.get_object(pk)
+        serializer = TeacherClassesSerializer(courses, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def delete(self, request, pk, format=None):
+        courses = self.get_object(pk)
+        courses.delete()
+
+class ToDoListView(APIView):
+    def get_object(self, pk):
+        teacher = Teacher_Info.objects.get(pk=pk)
+        return teacher
+
+    def get(self, request, pk, format=None):
+        teacher = self.get_object(pk)
+        ToDoLists = ToDoList.objects.filter( Teacher = teacher )
+        serializer = ToDoListSerializer(ToDoLists, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = ToDoListSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        todolist = self.get_object(pk)
+        serializer = ToDoListSerializer(todolist, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def delete(self, request, pk, format=None):
+        todolist = self.get_object(pk)
+        todolist.delete()
+
 # class StudentView(viewsets.ModelViewSet):
 #     queryset = Student_Info.objects.all()
 #     serializer_class = StudentSerializer
@@ -151,9 +241,10 @@ class ReportView(APIView):
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def test_view(request, pk):
 #
-#     qs = Teacher_Info.objects.all()
+#     qs = Teacher_Info.objects.all()/
+#     qs_ser
 
 
-
-
-
+    # if request.method == 'GET':
+    #     serializer = SnippetSerializer(snippet)
+    #     return Response(serializer.data)
