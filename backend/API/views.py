@@ -110,9 +110,9 @@ class SupervisorView(APIView):
             serializer.save()
             return Response(serializer.data)
 
-    def delete(self, request, pk, format=None):
-        supervisor = self.get_object(pk)
-        supervisor.delete()
+    # def delete(self, request, pk, format=None):
+    #     supervisor = self.get_object(pk)
+    #     supervisor.delete()
 
 
 
@@ -151,10 +151,9 @@ class ReportView(APIView):
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def test_view(request, pk):
 #
-#     qs = Teacher_Info.objects.all()/
-#     qs_ser
+#     qs = Teacher_Info.objects.all()
 
 
-    # if request.method == 'GET':
-    #     serializer = SnippetSerializer(snippet)
-    #     return Response(serializer.data)
+
+
+
