@@ -12,7 +12,7 @@ admin.site.register(Semester_Info)
 admin.site.register(Grade)
 admin.site.register(ClassName)
 admin.site.register(TeacherClasses)
-admin.site.register(ToDoList)
+
 
 
 
