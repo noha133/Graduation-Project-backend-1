@@ -208,7 +208,7 @@ class ToDoListView(APIView):
 
     def get(self, request, pk, format=None):
         teacher = self.get_object(pk)
-        ToDoLists = ToDoList.objects.filter( Teacher = teacher )
+        ToDoLists = TeacherClasses.objects.filter( Teacher = teacher )
         serializer = ToDoListSerializer(ToDoLists, many=True)
         return Response(serializer.data)
 
