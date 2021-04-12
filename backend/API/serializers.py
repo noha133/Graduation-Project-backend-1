@@ -56,5 +56,5 @@ class TeacherClassesSerializer(serializers.ModelSerializer):
 
 class ToDoListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TeacherClasses
+        model = ToDoList
         fields = ['Course_Info', 'Class', 'Text']

@@ -82,15 +82,14 @@ class Grade(models.Model):
 class TeacherClasses(models.Model):
     Teacher = models.ForeignKey(Teacher_Info, null=True, on_delete=models.SET_NULL)
     Course_Info = models.ForeignKey(Course_Info, null=True, on_delete=models.SET_NULL)
-    Class = models.ForeignKey(ClassName, null=True, on_delete=models.SET_NULL)
-    Text = models.CharField(max_length=100, null=True)
+    Class = models.ManyToManyField(ClassName)
     def __str__(self):
         return str(self.Course_Info)
 
-# class ToDoList(models.Model):
-#     Teacher = models.ForeignKey(Teacher_Info, null=True, on_delete=models.SET_NULL)
-#     Course_Info = models.ForeignKey(Course_Info, null=True, on_delete=models.SET_NULL)
-#     Class = models.ManyToManyField(ClassName)
-#     Text = models.CharField(max_length=100)
-#     def __str__(self):
-#         return str(self.Text)
+class ToDoList(models.Model):
+    Teacher = models.ForeignKey(Teacher_Info, null=True, on_delete=models.SET_NULL)
+    Course_Info = models.ForeignKey(Course_Info, null=True, on_delete=models.SET_NULL)
+    Class = models.ManyToManyField(ClassName)
+    Text = models.CharField(max_length=100)
+    def __str__(self):
+        return str(self.Text)
