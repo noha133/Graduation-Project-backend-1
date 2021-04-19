@@ -28,7 +28,8 @@ urlpatterns = [
     path('tcourses/', views.TeacherCourseView.as_view()),
     path('grades/<int:pk>/', views.ReportView.as_view()),
     path('grades/', views.ReportView.as_view()),
-    path('todolist/<int:pk>/', views.ToDoListView.as_view()),
+    path('todolistt/<int:pk>/', views.ToDoListTeacherView.as_view()),
+    path('todolists/<int:pk>/', views.ToDoListStudentView.as_view()),
 ]
 
 # urlpatterns+= router.urls

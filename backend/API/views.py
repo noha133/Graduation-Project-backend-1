@@ -201,7 +201,7 @@ class TeacherCourseView(APIView):
         courses = self.get_object(pk)
         courses.delete()
 
-class ToDoListView(APIView):
+class ToDoListTeacherView(APIView):
     def get_object(self, pk):
         teacher = Teacher_Info.objects.get(pk=pk)
         return teacher
@@ -224,6 +224,22 @@ class ToDoListView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+
+    def delete(self, request, pk, format=None):
+        todolist = self.get_object(pk)
+        todolist.delete()
+
+class ToDoListStudentView(APIView):
+    def get_object(self, pk):
+        student = Student_Info.objects.get(pk=pk)
+        return student
+
+    def get(self, request, pk, format=None):
+        student = self.get_object(pk)
+        courses = Course_Info.objects.filter(semester=student.semester_number.number)
+        ToDoLists = TeacherClasses.objects.filter(Class=student.Class, Course_Info__in=courses)
+        serializer = ToDoListSerializer(ToDoLists, many=True)
+        return Response(serializer.data)
 
     def delete(self, request, pk, format=None):
         todolist = self.get_object(pk)
