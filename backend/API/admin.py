@@ -12,7 +12,9 @@ admin.site.register(Semester_Info)
 admin.site.register(Grade)
 admin.site.register(ClassName)
 admin.site.register(TeacherClasses)
-
+@admin.register(Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
+    list_display = ('body', 'level', 'display')
 
 
 

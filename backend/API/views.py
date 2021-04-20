@@ -245,6 +245,50 @@ class ToDoListStudentView(APIView):
         todolist = self.get_object(pk)
         todolist.delete()
 
+
+class ProgressView(APIView):
+    def get_object(self, pk):
+        supervisor = Supervisor_Info.objects.get(pk=pk)
+        return supervisor
+
+    def get(self, request, pk, format=None):
+        supervisor = self.get_object(pk)
+        courses = Course_Info.objects.filter(departments=supervisor.department)
+        # students = Student_Info.objects.filter( semester_number=courses.semester)
+        # grades = Grade.objects.filter(Student=students)
+        # serializer = Grades_InfoSerializer(grades, many=True)
+        serializer = Course_InfoSerializer(courses, many=True)
+        return Response(serializer.data)
+
+
+class AssignClassView(APIView):
+    def get_object(self, pk):
+        supervisor = Supervisor_Info.objects.get(pk=pk)
+        return supervisor
+
+    def get(self, request, pk, format=None):
+        supervisor = self.get_object(pk)
+        teachers = Teacher_Info.objects.filter( department=supervisor.department)
+        classes = TeacherClasses.objects.filter(Teacher__in=teachers)
+        serializer = AssignClassSerializer(classes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = AssignClassSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        supervisor = self.get_object(pk)
+        serializer = AssignClassSerializer(supervisor, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def delete(self, request, pk, format=None):
+        supervisor = self.get_object(pk)
+        supervisor.delete()
 # class StudentView(viewsets.ModelViewSet):
 #     queryset = Student_Info.objects.all()
 #     serializer_class = StudentSerializer
