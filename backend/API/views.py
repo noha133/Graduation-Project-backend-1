@@ -1,5 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+    # , permission_classes
+from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
 from .models import *
 from .serializers import *
@@ -8,7 +10,7 @@ from rest_framework.decorators import api_view
 
 
 class StudentView(APIView):
-    # permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated,)
 
     # def get(request,pk):
     #     qs = Student_Info.objects.get(pk=pk)
@@ -201,6 +203,7 @@ class TeacherCourseView(APIView):
         courses = self.get_object(pk)
         courses.delete()
 
+
 class ToDoListTeacherView(APIView):
     def get_object(self, pk):
         teacher = Teacher_Info.objects.get(pk=pk)
@@ -208,19 +211,22 @@ class ToDoListTeacherView(APIView):
 
     def get(self, request, pk, format=None):
         teacher = self.get_object(pk)
-        ToDoLists = TeacherClasses.objects.filter( Teacher = teacher )
-        serializer = ToDoListSerializer(ToDoLists, many=True)
-        return Response(serializer.data)
+        Class = TeacherClasses.objects.filter( Teacher = teacher )
+        ToDoLists = ToDoList.objects.filter(TeacherClass__in=Class)
+        serializer1 = TeacherClassesSerializer(Class, many=True)
+        serializer2 = ToDoListTeacherSerializer(ToDoLists, many=True)
+        Serializer_list = [serializer1.data, serializer2.data]
+        return Response(Serializer_list)
 
     def post(self, request, format=None):
-        serializer = ToDoListSerializer(data=request.data)
+        serializer = ToDoListTeacherSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         todolist = self.get_object(pk)
-        serializer = ToDoListSerializer(todolist, data=request.data)
+        serializer = ToDoListTeacherSerializer(todolist, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -237,31 +243,33 @@ class ToDoListStudentView(APIView):
     def get(self, request, pk, format=None):
         student = self.get_object(pk)
         courses = Course_Info.objects.filter(semester=student.semester_number.number)
-        ToDoLists = TeacherClasses.objects.filter(Class=student.Class, Course_Info__in=courses)
-        serializer = ToDoListSerializer(ToDoLists, many=True)
-        return Response(serializer.data)
+        Class = TeacherClasses.objects.filter(Class=student.Class, Course_Info__in=courses)
+        ToDoLists = ToDoList.objects.filter(TeacherClass__in=Class)
+        serializer1 = TeacherClassesSerializer(Class, many=True)
+        serializer2 = ToDoListStudentSerializer(ToDoLists, many=True)
+        Serializer_list = [serializer1.data, serializer2.data]
+        return Response(Serializer_list)
 
-    def delete(self, request, pk, format=None):
-        todolist = self.get_object(pk)
-        todolist.delete()
 
-
-class ProgressView(APIView):
+class AnnouncementView(APIView):
     def get_object(self, pk):
-        supervisor = Supervisor_Info.objects.get(pk=pk)
-        return supervisor
+        student = Student_Info.objects.get(pk=pk)
+        return student
 
     def get(self, request, pk, format=None):
-        supervisor = self.get_object(pk)
-        courses = Course_Info.objects.filter(departments=supervisor.department)
-        # students = Student_Info.objects.filter( semester_number=courses.semester)
-        # grades = Grade.objects.filter(Student=students)
-        # serializer = Grades_InfoSerializer(grades, many=True)
-        serializer = Course_InfoSerializer(courses, many=True)
-        return Response(serializer.data)
+        student = self.get_object(pk)
+        courses = Course_Info.objects.filter(semester=student.semester_number.number)
+        Class = TeacherClasses.objects.filter(Class=student.Class, Course_Info__in=courses)
+        ToDoLists = ToDoList.objects.filter(TeacherClass__in=Class,announce=True )
+        # task = TeacherClasses.objects.filter(ToDoLists.TeacherClass)
+        serializer1 = TeacherClassesSerializer(Class, many=True)
+        serializer2 = ToDoListStudentSerializer(ToDoLists, many=True)
+        Serializer_list = [serializer1.data, serializer2.data]
+        return Response(Serializer_list)
 
 
 class AssignClassView(APIView):
+    # permission_classes = (IsAuthenticated,)
     def get_object(self, pk):
         supervisor = Supervisor_Info.objects.get(pk=pk)
         return supervisor
@@ -274,7 +282,13 @@ class AssignClassView(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = AssignClassSerializer(data=request.data)
+        account = request.user
+        # supervisor = Supervisor_Info(user=account)
+        teacherclasses = TeacherClasses(Supervisor=account)
+        # teachers = Teacher_Info.objects.filter(department=supervisor.department)
+        # courses = Course_Info.objects.filter(department=supervisor.department)
+        # classes = ClassName.objects.all()
+        serializer = AssignClassSerializer(teacherclasses,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -289,6 +303,23 @@ class AssignClassView(APIView):
     def delete(self, request, pk, format=None):
         supervisor = self.get_object(pk)
         supervisor.delete()
+
+
+# class ProgressView(APIView):
+#     def get_object(self, pk):
+#         supervisor = Supervisor_Info.objects.get(pk=pk)
+#         return supervisor
+#
+#     def get(self, request, pk, format=None):
+#         supervisor = self.get_object(pk)
+#         courses = Course_Info.objects.filter(departments=supervisor.department)
+#         # students = Student_Info.objects.filter( semester_number=courses.semester)
+#         # grades = Grade.objects.filter(Student=students)
+#         # serializer = Grades_InfoSerializer(grades, many=True)
+#         serializer = Course_InfoSerializer(courses, many=True)
+#         return Response(serializer.data)
+
+
 # class StudentView(viewsets.ModelViewSet):
 #     queryset = Student_Info.objects.all()
 #     serializer_class = StudentSerializer

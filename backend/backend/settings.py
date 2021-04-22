@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['nohamagdy.pythonanywhere.com','127.0.0.1']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    # 'auth_jwt',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -145,7 +146,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication'
     ]
     ,
-'DEFAULT_RENDERER_CLASSES': (
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthentication',
+    # ]
+    # ,
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.AllowAny',
+    # ),
+    'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     )
 }

@@ -46,7 +46,7 @@ class Semester_InfoSerializer(serializers.ModelSerializer):
 class Grades_InfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
-        fields = ['Course_Info', 'number']
+        fields = ['Course_Info', 'coursework','final']
 
 
 class TeacherClassesSerializer(serializers.ModelSerializer):
@@ -56,10 +56,17 @@ class TeacherClassesSerializer(serializers.ModelSerializer):
         fields = ['Course_Info', 'Class']
 
 
-class ToDoListSerializer(serializers.ModelSerializer):
+class ToDoListStudentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TeacherClasses
-        fields = ['Course_Info', 'Class', 'Text']
+        model = ToDoList
+        # fields = ['body','completed','created','deadline']
+        fields = '__all__'
+
+
+class ToDoListTeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ToDoList
+        fields = '__all__'
 
 
 class AssignClassSerializer(serializers.ModelSerializer):

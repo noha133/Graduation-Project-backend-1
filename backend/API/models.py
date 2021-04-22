@@ -1,5 +1,7 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
+from datetime import datetime
 
 class User(AbstractUser):
   USER_TYPE_CHOICES = (
@@ -10,20 +12,6 @@ class User(AbstractUser):
   user_type = models.CharField(choices=USER_TYPE_CHOICES,default="2",null=False , max_length=10)
   def __str__(self):
       return self.username
-
-LEVEL_CHOICES = (
-     ('warning', 'Warning'),
-     ('error', 'Error'),
-     ('success', 'Success'),
-     ('info', 'Info'),
-)
-class Announcement(models.Model):
-    body = models.TextField(blank=False)
-    display = models.BooleanField(default=False)
-    level = models.CharField(max_length=7,
-                choices=LEVEL_CHOICES, default='info')
-    def __unicode__(self):
-        return self.body[:50]
 
 
 class ClassName(models.Model):
@@ -79,18 +67,39 @@ class Supervisor_Info(models.Model):
 
 class Grade(models.Model):
     id = models.AutoField(primary_key=True)
-    number = models.IntegerField()
+    coursework = models.FloatField( null=True)
+    final = models.FloatField(null=True)
     Student = models.ForeignKey(Student_Info, null=True, on_delete=models.SET_NULL)
     Course_Info = models.ForeignKey(Course_Info, null=True, on_delete=models.SET_NULL)
     def __str__(self):
-        return str(self.number)
+        return str(self.coursework + self.final)
 
 
 class TeacherClasses(models.Model):
     Teacher = models.ForeignKey(Teacher_Info, null=True, on_delete=models.SET_NULL)
+    Supervisor = models.ForeignKey(Supervisor_Info, null=True, on_delete=models.SET_NULL)
     Course_Info = models.ForeignKey(Course_Info, null=True, on_delete=models.SET_NULL)
     Class = models.ForeignKey(ClassName, null=True, on_delete=models.SET_NULL)
-    Text = models.CharField(max_length=100, null=True)
+    # Text = models.TextField(blank=True)
     def __str__(self):
-        return str(self.Course_Info)
+        return f'{self.Course_Info} {self.Class} {self.Teacher}'
+
+
+TASK_CHOICES = (
+     ('homework', 'HomeWork'),
+     ('reminder', 'Reminder'),
+     ('quiz', 'Quiz'),
+)
+
+class ToDoList(models.Model):
+    TeacherClass = models.ForeignKey(TeacherClasses, null=True, on_delete=models.SET_NULL)
+    body = models.TextField(blank=True)
+    link = models.CharField(max_length=360, null=True)
+    level = models.CharField(max_length=8, choices=TASK_CHOICES, default='homework')
+    completed = models.BooleanField(default=False)
+    announce = models.BooleanField(default=False)
+    created = models.DateField(auto_now_add=True, blank=True)
+    deadline = models.DateField(null=True)
+    def __str__(self):
+        return str(self.TeacherClass)
 
