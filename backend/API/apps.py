@@ -6,3 +6,11 @@ class ApiConfig(AppConfig):
 
     def ready(self):
         import API.signals
+
+
+# class BaseConfig(AppConfig):
+#     name = 'base'
+#
+#     def ready(self):
+#         import base.signals
+

@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'API.apps.ApiConfig',
+    'rest_auth',
+    # 'base.apps.BaseConfig'
 ]
 
 MIDDLEWARE = [
@@ -155,6 +157,7 @@ REST_FRAMEWORK = {
     # ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-    )
+    ),
+
 }
 

@@ -67,12 +67,25 @@ class Supervisor_Info(models.Model):
 
 class Grade(models.Model):
     id = models.AutoField(primary_key=True)
+    Course_Info = models.ForeignKey(Course_Info, null=True, on_delete=models.SET_NULL)
     coursework = models.FloatField( null=True)
     final = models.FloatField(null=True)
     Student = models.ForeignKey(Student_Info, null=True, on_delete=models.SET_NULL)
-    Course_Info = models.ForeignKey(Course_Info, null=True, on_delete=models.SET_NULL)
-    def __str__(self):
-        return str(self.coursework + self.final)
+
+    # @classmethod
+    # def create(cls, c):
+    #     Grade = cls(Course_Info=c)
+    #     # do something with the book
+    #     return Grade
+    # def __str__(self):
+    #     return str(self.coursework + self.final)
+    #
+
+# class Report(models.Model):
+#     Student = models.ForeignKey(Student_Info, null=True, on_delete=models.SET_NULL)
+#     grades = models.ManyToManyField(Grade)
+#     def __str__(self):
+#         return str(self.Student)
 
 
 class TeacherClasses(models.Model):
