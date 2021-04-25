@@ -26,7 +26,6 @@ urlpatterns = [
     path('scourses/', views.StudentCourseView.as_view()),
     path('tcourses/<int:pk>/', views.TeacherCourseView.as_view()),
     path('tcourses/', views.TeacherCourseView.as_view()),
-    # path('report/<int:pk>/', views.ReportView.as_view()),
     path('grades/<int:pk>/', views.GradeView.as_view()),
     path('grades/', views.GradeView.as_view()),
     path('todolistt/<int:pk>/', views.ToDoListTeacherView.as_view()),
@@ -38,7 +37,6 @@ urlpatterns = [
     # path('progress/<int:pk>/', views.ProgressView.as_view()),
     # path('progress/', views.ProgressView.as_view()),
 ]
-
 
 # urlpatterns+= router.urls
 

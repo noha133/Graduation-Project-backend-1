@@ -18,16 +18,6 @@ class StudentView(APIView):
     def get_object(self, pk):
             return Student_Info.objects.get(pk=pk)
 
-    # def grade_created(sender, instance, created, **kwargs):
-    #     if created:
-    #         # semester = Student_Info.semester_number
-    #         courses = Course_Info.objects.filter(semester=instance.semester_number)
-    #         for course in courses:
-    #             new_grade = Grade.objects.create(user=instance.user, Course_Info=course)
-    #             new_grade.save()
-
-    # post_save.connect(grade_created, sender=Student_Info.name)
-
     def get(self, request, pk, format=None):
         try:
             student = self.get_object(pk=pk)
@@ -41,31 +31,15 @@ class StudentView(APIView):
             student = self.get_object(pk=pk)
         except Student_Info.DoesNotExist:
             return Response("Sorry! Doesn't Exist🙁")
+        serializer = StudentSerializer(student, data=request.data)
         courses = Course_Info.objects.filter(semester=student.semester_number)
         for course in courses:
             new_grade = Grade.objects.create(user=student.user, Course_Info=course)
             new_grade.save()
-        serializer = StudentSerializer(student, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
-
-        # @receiver(post_save, sender=Student_Info)
-        # def grade_created(sender, instance, created, **kwargs):
-        #     if created:
-        #             # semester = Student_Info.semester_number
-        #         courses = Course_Info.objects.filter(semester=instance.semester_number)
-        #         for course in courses:
-        #             new_grade= Grade.objects.create(user = instance.user, Course_Info = course)
-        #             new_grade.save()
-        #
-        # post_save.connect(grade_created,sender=Student_Info.name)
-
-
-        # if(student.semester_number != None ):
-
-
 
     def delete(self, request, pk, format=None):
         try:
@@ -180,40 +154,39 @@ class GradeView(APIView):
     def get_object(self, pk):
         student = Student_Info.objects.get(pk=pk)
         return student
+
+    def get_grade(self, pk):
+        grade = Grade.objects.get(pk=pk)
+        return grade
+
     def get(self, request, pk, format=None):
         try:
             student = self.get_object(pk=pk)
         except Student_Info.DoesNotExist:
             return Response("Sorry! Doesn't Exist🙁")
-        grades = Grade.objects.filter(Student=student)
+        grades = Grade.objects.filter(user=student.user)
         serializer = Grades_InfoSerializer(grades, many=True)
         return Response(serializer.data)
 
-    def post(self, request, format=None):
-        teacher = Teacher_Info.objects.get(pk=request.user)
-        serializer = Grades_InfoSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
     def put(self, request, pk, format=None):
         try:
-            student = self.get_object(pk=pk)
+            grade = self.get_grade(pk=pk)
         except Grade.DoesNotExist:
             return Response("Sorry! Doesn't Exist🙁")
-        courses = Course_Info.objects.filter(semester=student.semester_number.number)
-        grades = Grade.objects.filter(Student=student, Course_Info__in=courses)
-        serializer = Grades_InfoSerializer(grades, data=request.data, many=True)
+        # courses = Course_Info.objects.filter(semester=student.semester_number.number)
+        # grades = Grade.objects.filter()
+        serializer = Grades_InfoSerializer(grade, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        return Response(serializer.errors)
 
     def delete(self, request, pk, format=None):
         try:
-            grades = self.get_object(pk = pk)
+            grade = self.get_grade(pk = pk)
         except Grade.DoesNotExist:
             return Response("Sorry! Doesn't Exist🙁")
-        operation = grades.delete()
+        operation = grade.delete()
         data = {}
         if operation:
             data["sucess"] = "Deleted successfully😘"
@@ -227,47 +200,14 @@ class TeacherCourseView(APIView):
         teacher = Teacher_Info.objects.get(pk=pk)
         return teacher
 
-    def get_TeacherClass(self, pk):
-        teacherclass = TeacherClasses.objects.get(pk=pk)
-        return teacherclass
-
     def get(self, request, pk, format=None):
         try:
             teacher = self.get_object(pk)
         except Teacher_Info.DoesNotExist:
             return Response("Sorry! Doesn't Exist🙁")
         courses = TeacherClasses.objects.filter(Teacher=teacher)
-        serializer = TeacherClassesSerializer(courses, many=True)
+        serializer = AssignClassSerializer(courses, many=True)
         return Response(serializer.data)
-
-    # def post(self, request, format=None):
-    #     serializer = TeacherClassesSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors)
-    #
-    # def put(self, request, pk, format=None):
-    #     teacher = self.get_object(pk)
-    #     # courses = TeacherClasses.objects.filter(Teacher=teacher)
-    #     serializer = TeacherClassesSerializer(teacher, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors)
-    #
-    # def delete(self, request, pk, format=None):
-    #     try:
-    #         teacherclass = self.get_TeacherClass(pk=pk)
-    #     except TeacherClasses.DoesNotExist:
-    #         return Response("Sorry! Doesn't Exist🙁")
-    #     operation = teacherclass.delete()
-    #     data = {}
-    #     if operation:
-    #         data["sucess"] = "Deleted successfully😘"
-    #     else:
-    #         data["failure"] = "Delete failed😢"
-    #     return Response(data=data)
 
 
 class AssignClassView(APIView):
@@ -294,6 +234,7 @@ class AssignClassView(APIView):
         serializer = AssignClassSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+
             return Response(serializer.data)
 
     def put(self, request, pk, format=None):
@@ -316,7 +257,6 @@ class AssignClassView(APIView):
         else:
             data["failure"] = "Delete failed😢"
         return Response(data=data)
-
 
 class ToDoListTeacherView(APIView):
     def get_object(self, pk):

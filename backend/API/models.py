@@ -73,6 +73,7 @@ class Teacher_Info(models.Model):
 
 class Supervisor_Info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    name = models.CharField(max_length=100)
     department = models.ForeignKey(departments, null=True, on_delete=models.SET_NULL)
 
     class Meta:
@@ -97,22 +98,6 @@ class Grade(models.Model):
         return str(self.user)
         # return f'{self.Student} {self.Course_Info} {self.coursework + self.final}'
 
-    # @classmethod
-    # def create(cls, c):
-    #     Grade = cls(Course_Info=c)
-    #     # do something with the book
-    #     return Grade
-    # def __str__(self):
-    #     return str(self.coursework + self.final)
-    #
-
-# class Report(models.Model):
-#     Student = models.ForeignKey(Student_Info, null=True, on_delete=models.SET_NULL)
-#     grades = models.ManyToManyField(Grade)
-#     def __str__(self):
-#         return str(self.Student)
-
-
 class TeacherClasses(models.Model):
     Teacher = models.ForeignKey(Teacher_Info, null=True, on_delete=models.SET_NULL)
     Supervisor = models.ForeignKey(Supervisor_Info, null=True, on_delete=models.SET_NULL)
@@ -121,7 +106,7 @@ class TeacherClasses(models.Model):
     # Text = models.TextField(blank=True
 
     class Meta:
-        unique_together = ('Teacher', 'Course_Info', 'Class',)
+        unique_together = ('Course_Info', 'Class',)
 
     def __str__(self):
         return f'{self.Course_Info} {self.Class} {self.Teacher}'
@@ -136,16 +121,12 @@ TASK_CHOICES = (
 class ToDoList(models.Model):
     TeacherClass = models.ForeignKey(TeacherClasses, null=True, on_delete=models.SET_NULL)
     body = models.TextField(blank=True)
-    link = models.CharField(max_length=360, null=True)
-    level = models.CharField(max_length=8, choices=TASK_CHOICES, default='homework')
+    link = models.CharField(max_length=360, null=True,blank=True)
+    type = models.CharField(max_length=8, choices=TASK_CHOICES, default='homework')
     completed = models.BooleanField(default=False)
     announce = models.BooleanField(default=False)
     created = models.DateField(auto_now_add=True, blank=True)
-    deadline = models.DateField(null=True)
+    deadline = models.DateField(null=True,blank=True)
 
     def __str__(self):
         return str(self.TeacherClass)
-
-
-
-
