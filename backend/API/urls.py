@@ -32,6 +32,7 @@ urlpatterns = [
     path('todolists/<int:pk>/', views.ToDoListStudentView.as_view()),
     path('announcement/<int:pk>/', views.AnnouncementView.as_view()),
     path('todolistt/', views.ToDoListTeacherView.as_view()),
+    path('supervisoraccess/<int:pk>/', views.SupervisorClassesView.as_view()),
     path('assignclass/<int:pk>/', views.AssignClassView.as_view()),
     path('assignclass/', views.AssignClassView.as_view()),
     # path('progress/<int:pk>/', views.ProgressView.as_view()),

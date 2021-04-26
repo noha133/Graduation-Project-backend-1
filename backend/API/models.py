@@ -100,7 +100,7 @@ class Grade(models.Model):
 
 class TeacherClasses(models.Model):
     Teacher = models.ForeignKey(Teacher_Info, null=True, on_delete=models.SET_NULL)
-    Supervisor = models.ForeignKey(Supervisor_Info, null=True, on_delete=models.SET_NULL)
+    # Supervisor = models.ForeignKey(Supervisor_Info, null=True, on_delete=models.SET_NULL)
     Course_Info = models.ForeignKey(Course_Info, null=True, on_delete=models.SET_NULL)
     Class = models.ForeignKey(ClassName, null=True, on_delete=models.SET_NULL)
     # Text = models.TextField(blank=True

@@ -209,6 +209,22 @@ class TeacherCourseView(APIView):
         serializer = AssignClassSerializer(courses, many=True)
         return Response(serializer.data)
 
+class SupervisorClassesView(APIView):
+    def get_object(self, pk):
+        supervisor = Supervisor_Info.objects.get(pk=pk)
+        return supervisor
+
+    def get(self, request, pk, format=None):
+        supervisor = self.get_object(pk)
+        teachers = Teacher_Info.objects.filter( department=supervisor.department)
+        courses = Course_Info.objects.filter(departments=supervisor.department)
+        classes = ClassName.objects.all()
+        serializer1 = TeacherSerializer(teachers, many=True)
+        serializer2 = Course_InfoSerializer(courses, many=True)
+        serializer3 = Class(classes, many=True)
+        Serializer_list = [serializer1.data, serializer2.data, serializer3.data]
+        return Response(Serializer_list)
+
 
 class AssignClassView(APIView):
     # permission_classes = (IsAuthenticated,)
@@ -367,28 +383,3 @@ class AnnouncementView(APIView):
 #     queryset = Teacher_Info.objects.all()
 #     serializer_class = TeacherSerializer
 
-
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def test_view(request, pk):
-#
-#     qs = Teacher_Info.objects.all()/
-#     qs_ser
-
-
-    # if request.method == 'GET':
-    #     serializer = SnippetSerializer(snippet)
-    #     return Response(serializer.data)
-# class   ReportView(APIView):
-#     def get_object(self, pk):
-#         student = Student_Info.objects.get(pk=pk)
-#         return student
-#     def get(self, request, pk, format=None):
-#         try:
-#             student = self.get_object(pk=pk)
-#         except Student_Info.DoesNotExist:
-#             return Response("Sorry! Doesn't Exist🙁")
-#         courses = Course_Info.objects.filter(semester=student.semester_number.number)
-#         grade = Grade.objects.filter(Course_Info__in=courses)
-#         report =Grade.objects.filter(Student=student, grades__in=grade)
-#         serializer = Report_InfoSerializer(report, many=True)
-#         return Response(serializer.data)

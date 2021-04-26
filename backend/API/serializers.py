@@ -76,7 +76,12 @@ class ToDoListTeacherSerializer(serializers.ModelSerializer):
 
 
 class AssignClassSerializer(serializers.ModelSerializer):
-            class Meta:
-                model = TeacherClasses
-                # fields = '__all__'
-                fields = ['Course_Info', 'Teacher' ,'Class']
+        class Meta:
+            model = TeacherClasses
+            # fields = '__all__'
+            fields = ['Course_Info', 'Teacher' ,'Class']
+
+class Class(serializers.ModelSerializer):
+    class Meta:
+        model = ClassName
+        fields = '__all__'
