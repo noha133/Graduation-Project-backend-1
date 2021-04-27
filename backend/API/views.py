@@ -12,7 +12,14 @@ from rest_framework import mixins
 from rest_framework.decorators import api_view
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-
+class UserView(APIView):
+    def get(self, request, pk, format=None):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response("Sorry! Doesn't Exist🙁")
+        serializer = usertypeSerializer(user)
+        return Response(serializer.data)
 
 class StudentView(APIView):
     def get_object(self, pk):

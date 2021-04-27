@@ -18,6 +18,7 @@ urlpatterns = [
     #path('<int:pk>', TestView.as_view(), name='test'),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('usertype/<int:pk>/', views.UserView.as_view()),
     path('student/', views.StudentView.as_view()),
     path('student/<int:pk>/', views.StudentView.as_view()),
     path('teacher/<int:pk>/', views.TeacherView.as_view()),
