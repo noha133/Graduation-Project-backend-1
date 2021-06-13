@@ -332,6 +332,10 @@ class ToDoListStudentView(APIView):
         student = Student_Info.objects.get(pk=pk)
         return student
 
+    def get_task(self, pk):
+        task = ToDoList.objects.get(pk=pk)
+        return task
+
     def get(self, request, pk, format=None):
         try:
             student = self.get_object(pk=pk)
