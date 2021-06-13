@@ -76,6 +76,11 @@ class ToDoListStudentSerializer(serializers.ModelSerializer):
         # fields = ['body','completed','created','deadline']
         fields = '__all__'
 
+class ToDoListStudentCompletedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ToDoList
+        fields = ['completed']
+
 
 class ToDoListTeacherSerializer(serializers.ModelSerializer):
     class Meta:

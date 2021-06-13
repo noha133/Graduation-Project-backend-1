@@ -345,6 +345,13 @@ class ToDoListStudentView(APIView):
         Serializer_list = [serializer1.data, serializer2.data]
         return Response(Serializer_list)
 
+    def put(self, request, pk, format=None):
+        task = self.get_task(pk)
+        serializer = ToDoListStudentCompletedSerializer(task, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
 
 class AnnouncementView(APIView):
     def get_object(self, pk):
