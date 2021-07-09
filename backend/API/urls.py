@@ -21,6 +21,7 @@ urlpatterns = [
     path('usertype/<int:pk>/', views.UserView.as_view()),
     path('student/', views.StudentView.as_view()),
     path('student/<int:pk>/', views.StudentView.as_view()),
+    path('class/<int:pk>/', views.CLassView.as_view()),
     path('teacher/<int:pk>/', views.TeacherView.as_view()),
     path('supervisor/<int:pk>/', views.SupervisorView.as_view()),
     path('scourses/<int:pk>/', views.StudentCourseView.as_view()),

@@ -20,6 +20,10 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student_Info
         fields = '__all__'
 
+class ClassNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassName
+        fields = '__all__'
 
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
