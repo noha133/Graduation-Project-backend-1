@@ -24,6 +24,7 @@ urlpatterns = [
     path('class/<int:pk>/', views.CLassView.as_view()),
     path('course/<int:pk>/', views.CourseView.as_view()),
     path('teacher/<int:pk>/', views.TeacherView.as_view()),
+    path('department/<int:pk>/', views.DepartmentView.as_view()),
     path('supervisor/<int:pk>/', views.SupervisorView.as_view()),
     path('scourses/<int:pk>/', views.StudentCourseView.as_view()),
     path('scourses/', views.StudentCourseView.as_view()),
