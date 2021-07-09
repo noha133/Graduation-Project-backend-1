@@ -229,6 +229,18 @@ class CLassView(APIView):
         serializer = ClassNameSerializer(classname)
         return Response(serializer.data)
 
+class CourseView(APIView):
+    def get_object(self, pk):
+        course = Course_Info.objects.get(pk=pk)
+        return course
+
+    def get(self, request, pk, format=None):
+        try:
+            course = self.get_object(pk)
+        except Course_Info.DoesNotExist:
+            return Response("Sorry! Doesn't Exist🙁")
+        serializer = Course_InfoSerializer(course)
+        return Response(serializer.data)
 
 class SupervisorClassesView(APIView):
     def get_object(self, pk):
