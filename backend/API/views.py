@@ -63,6 +63,23 @@ class StudentView(APIView):
         return Response(data=data)
 
 
+
+class StudentsClassView(APIView):
+    def get_object(self, pk):
+        return TeacherClasses.objects.get(pk=pk)
+
+    def get(self, request, pk, format=None):
+        try:
+            teacherclass = self.get_object(pk)
+            students = Student_Info.objects.filter(semester_number=teacherclass.Course_Info.semester, Class=teacherclass.Class)
+        except Student_Info.DoesNotExist:
+            return Response("Sorry! Doesn't Exist🙁")
+
+        serializer = StudentSerializer(students,many=True)
+        return Response(serializer.data)
+
+
+
 class TeacherView(APIView):
         def get_object(self, pk):
             return Teacher_Info.objects.get(pk=pk)

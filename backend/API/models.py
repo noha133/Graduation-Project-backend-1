@@ -10,7 +10,7 @@ class User(AbstractUser):
       ("2", 'teacher'),
       ("3", 'supervisor'),
   )
-  user_type = models.CharField(choices=USER_TYPE_CHOICES,default="2",null=False , max_length=10)
+  user_type = models.CharField(choices=USER_TYPE_CHOICES, default="2", null=False, max_length=10)
   def __str__(self):
       return self.username
 
