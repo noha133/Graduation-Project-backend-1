@@ -2,8 +2,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import HttpResponse
-
-    # , permission_classes
 from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
 from .models import *
@@ -12,6 +10,8 @@ from rest_framework import mixins
 from rest_framework.decorators import api_view
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+
+
 class UserView(APIView):
     def get(self, request, pk, format=None):
         try:
@@ -20,6 +20,7 @@ class UserView(APIView):
             return Response("Sorry! Doesn't Exist🙁")
         serializer = usertypeSerializer(user)
         return Response(serializer.data)
+
 
 class StudentView(APIView):
     def get_object(self, pk):
@@ -63,7 +64,6 @@ class StudentView(APIView):
 
 
 class TeacherView(APIView):
-        # permission_classes = (IsAuthenticated,)
         def get_object(self, pk):
             return Teacher_Info.objects.get(pk=pk)
 
@@ -75,7 +75,6 @@ class TeacherView(APIView):
 
             serializer = TeacherSerializer(teacher)
             return Response(serializer.data)
-
 
         def put(self, request, pk, format=None):
             try:
@@ -115,7 +114,6 @@ class SupervisorView(APIView):
         serializer = Supervisor_InfoSerializer(supervisor)
         return Response(serializer.data)
 
-
     def put(self, request, pk, format=None):
         try:
             supervisor = self.get_object(pk=pk)
@@ -139,6 +137,47 @@ class SupervisorView(APIView):
         else:
             data["failure"] = "Delete failed😢"
         return Response(data=data)
+
+class CLassView(APIView):
+    def get_object(self, pk):
+        classname = ClassName.objects.get(pk=pk)
+        return classname
+
+    def get(self, request, pk, format=None):
+        try:
+            classname = self.get_object(pk)
+        except ClassName.DoesNotExist:
+            return Response("Sorry! Doesn't Exist🙁")
+        serializer = ClassNameSerializer(classname)
+        return Response(serializer.data)
+
+
+class DepartmentView(APIView):
+    def get_object(self, pk):
+        department = departments.objects.get(pk=pk)
+        return department
+
+    def get(self, request, pk, format=None):
+        try:
+            department = self.get_object(pk)
+        except departments.DoesNotExist:
+            return Response("Sorry! Doesn't Exist🙁")
+        serializer = ClassNameSerializer(department)
+        return Response(serializer.data)
+
+
+class CourseView(APIView):
+    def get_object(self, pk):
+        course = Course_Info.objects.get(pk=pk)
+        return course
+
+    def get(self, request, pk, format=None):
+        try:
+            course = self.get_object(pk)
+        except Course_Info.DoesNotExist:
+            return Response("Sorry! Doesn't Exist🙁")
+        serializer = Course_InfoSerializer(course)
+        return Response(serializer.data)
 
 
 class StudentCourseView(APIView):
@@ -180,8 +219,6 @@ class GradeView(APIView):
             grade = self.get_grade(pk=pk)
         except Grade.DoesNotExist:
             return Response("Sorry! Doesn't Exist🙁")
-        # courses = Course_Info.objects.filter(semester=student.semester_number.number)
-        # grades = Grade.objects.filter()
         serializer = Grades_InfoSerializer(grade, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -216,44 +253,6 @@ class TeacherCourseView(APIView):
         serializer = AssignClassSerializer(courses, many=True)
         return Response(serializer.data)
 
-class CLassView(APIView):
-    def get_object(self, pk):
-        classname = ClassName.objects.get(pk=pk)
-        return classname
-
-    def get(self, request, pk, format=None):
-        try:
-            classname = self.get_object(pk)
-        except ClassName.DoesNotExist:
-            return Response("Sorry! Doesn't Exist🙁")
-        serializer = ClassNameSerializer(classname)
-        return Response(serializer.data)
-
-class DepartmentView(APIView):
-    def get_object(self, pk):
-        department = departments.objects.get(pk=pk)
-        return department
-
-    def get(self, request, pk, format=None):
-        try:
-            department = self.get_object(pk)
-        except departments.DoesNotExist:
-            return Response("Sorry! Doesn't Exist🙁")
-        serializer = ClassNameSerializer(department)
-        return Response(serializer.data)
-
-class CourseView(APIView):
-    def get_object(self, pk):
-        course = Course_Info.objects.get(pk=pk)
-        return course
-
-    def get(self, request, pk, format=None):
-        try:
-            course = self.get_object(pk)
-        except Course_Info.DoesNotExist:
-            return Response("Sorry! Doesn't Exist🙁")
-        serializer = Course_InfoSerializer(course)
-        return Response(serializer.data)
 
 class SupervisorClassesView(APIView):
     def get_object(self, pk):
@@ -268,12 +267,11 @@ class SupervisorClassesView(APIView):
         serializer1 = TeacherSerializer(teachers, many=True)
         serializer2 = Course_InfoSerializer(courses, many=True)
         serializer3 = Class(classes, many=True)
-        Serializer_list = [serializer1.data, serializer2.data, serializer3.data]
+        Serializer_list = serializer1.data + serializer2.data + serializer3.data
         return Response(Serializer_list)
 
 
 class AssignClassView(APIView):
-    # permission_classes = (IsAuthenticated,)
     def get_object(self, pk):
         supervisor = Supervisor_Info.objects.get(pk=pk)
         return supervisor
@@ -290,13 +288,9 @@ class AssignClassView(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        # supervisor = Supervisor_Info.objects.get(user=request.user)
-        # teacherclasses = TeacherClasses(Supervisor=supervisor)
-        # serializer = AssignClassSerializer(teacherclasses,data=request.data)
         serializer = AssignClassSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-
             return Response(serializer.data)
 
     def put(self, request, pk, format=None):
@@ -319,6 +313,7 @@ class AssignClassView(APIView):
         else:
             data["failure"] = "Delete failed😢"
         return Response(data=data)
+
 
 class ToDoListTeacherView(APIView):
     def get_object(self, pk):
@@ -409,11 +404,7 @@ class AnnouncementView(APIView):
         courses = Course_Info.objects.filter(semester=student.semester_number.number)
         Class = TeacherClasses.objects.filter(Class=student.Class, Course_Info__in=courses)
         ToDoLists = ToDoList.objects.filter(TeacherClass__in=Class,announce=True )
-        # task = TeacherClasses.objects.filter(ToDoLists.TeacherClass)
-        # serializer1 = TeacherClassesSerializer(Class, many=True)
         serializer2 = ToDoListStudentSerializer(ToDoLists, many=True)
-        # Serializer_list = [serializer1.data, serializer2.data]
-        # return Response(Serializer_list)
         return Response(serializer2.data)
 
 

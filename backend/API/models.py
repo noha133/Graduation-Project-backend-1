@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
 
+
 class User(AbstractUser):
   USER_TYPE_CHOICES = (
       ("1", 'student'),
@@ -51,7 +52,6 @@ class Student_Info(models.Model):
     semester_number = models.ForeignKey(Semester_Info, null=True, on_delete=models.SET_NULL)
     Class = models.ForeignKey(ClassName, null=True, on_delete=models.SET_NULL)
 
-
     class Meta:
         unique_together = ('user', 'Class',)
 
@@ -90,7 +90,6 @@ class Grade(models.Model):
     coursework = models.FloatField( null=True)
     final = models.FloatField(null=True)
 
-
     class Meta:
         unique_together = ('user', 'Course_Info',)
 
@@ -100,10 +99,8 @@ class Grade(models.Model):
 
 class TeacherClasses(models.Model):
     Teacher = models.ForeignKey(Teacher_Info, null=True, on_delete=models.SET_NULL)
-    # Supervisor = models.ForeignKey(Supervisor_Info, null=True, on_delete=models.SET_NULL)
     Course_Info = models.ForeignKey(Course_Info, null=True, on_delete=models.SET_NULL)
     Class = models.ForeignKey(ClassName, null=True, on_delete=models.SET_NULL)
-    # Text = models.TextField(blank=True
 
     class Meta:
         unique_together = ('Course_Info', 'Class',)

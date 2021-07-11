@@ -8,7 +8,6 @@ class usertypeSerializer(serializers.ModelSerializer):
         fields = ['user_type']
 
 
-
 class departmentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = departments
@@ -20,10 +19,12 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student_Info
         fields = '__all__'
 
+
 class ClassNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassName
         fields = '__all__'
+
 
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,14 +71,12 @@ class Report_InfoSerializer(serializers.ModelSerializer):
 class TeacherClassesSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeacherClasses
-        #fields = '__all__'
         fields = ['Course_Info', 'Class']
 
 
 class ToDoListStudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ToDoList
-        # fields = ['body','completed','created','deadline']
         fields = '__all__'
 
 
@@ -86,10 +85,12 @@ class ToDoListStudentCompletedSerializer(serializers.ModelSerializer):
         model = ToDoList
         fields = ['completed']
 
+
 class DepartmentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = departments
         fields = '__all__'
+
 
 class ToDoListTeacherSerializer(serializers.ModelSerializer):
     class Meta:
@@ -100,8 +101,8 @@ class ToDoListTeacherSerializer(serializers.ModelSerializer):
 class AssignClassSerializer(serializers.ModelSerializer):
         class Meta:
             model = TeacherClasses
-            # fields = '__all__'
             fields = ['Course_Info', 'Teacher' ,'Class']
+
 
 class Class(serializers.ModelSerializer):
     class Meta:
