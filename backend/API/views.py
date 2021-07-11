@@ -267,7 +267,7 @@ class SupervisorClassesView(APIView):
         serializer1 = TeacherSerializer(teachers, many=True)
         serializer2 = Course_InfoSerializer(courses, many=True)
         serializer3 = Class(classes, many=True)
-        Serializer_list = serializer1.data + serializer2.data + serializer3.data
+        Serializer_list = [serializer1.data, serializer2.data, serializer3.data]
         return Response(Serializer_list)
 
 
