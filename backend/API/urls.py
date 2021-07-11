@@ -38,6 +38,7 @@ urlpatterns = [
     path('supervisoraccess/<int:pk>/', views.SupervisorClassesView.as_view()),
     path('supervisorteachers/<int:pk>/', views.SupervisorTeachersView.as_view()),
     path('supervisorcourses/<int:pk>/', views.SupervisorCoursesView.as_view()),
+    path('supervisorclasses/<int:pk>/', views.SupervisorClassView.as_view()),
     path('assignclass/<int:pk>/', views.AssignClassView.as_view()),
     path('assignclass/', views.AssignClassView.as_view()),
     # path('progress/<int:pk>/', views.ProgressView.as_view()),
