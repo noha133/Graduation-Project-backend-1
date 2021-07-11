@@ -321,13 +321,8 @@ class SupervisorCoursesView(APIView):
         return Response(serializer2.data)
 
 
-class SupervisorClassView(APIView):
-    def get_object(self, pk):
-        supervisor = Supervisor_Info.objects.get(pk=pk)
-        return supervisor
-
-    def get(self, request, pk, format=None):
-        supervisor = self.get_object(pk)
+class ClassesView(APIView):
+    def get(self, request, format=None):
         classes = ClassName.objects.all()
         serializer3 = Class(classes, many=True)
         return Response(serializer3.data)
