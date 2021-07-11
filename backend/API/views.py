@@ -183,6 +183,16 @@ class DepartmentView(APIView):
         return Response(serializer.data)
 
 
+class DepartmentsView(APIView):
+    def get(self, request, format=None):
+        try:
+            department = departments.objects.all()
+        except departments.DoesNotExist:
+            return Response("Sorry! Doesn't Exist🙁")
+        serializer = DepartmentsSerializer(department, many=True)
+        return Response(serializer.data)
+
+
 class CourseView(APIView):
     def get_object(self, pk):
         course = Course_Info.objects.get(pk=pk)
