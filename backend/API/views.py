@@ -270,6 +270,29 @@ class SupervisorClassesView(APIView):
         Serializer_list = [serializer1.data, serializer2.data, serializer3.data]
         return Response(Serializer_list)
 
+class SupervisorTeachersView(APIView):
+    def get_object(self, pk):
+        supervisor = Supervisor_Info.objects.get(pk=pk)
+        return supervisor
+
+    def get(self, request, pk, format=None):
+        supervisor = self.get_object(pk)
+        teachers = Teacher_Info.objects.filter( department=supervisor.department)
+        serializer1 = TeacherSerializer(teachers, many=True)
+        return Response(serializer1.data)
+
+
+class SupervisorCoursesView(APIView):
+    def get_object(self, pk):
+        supervisor = Supervisor_Info.objects.get(pk=pk)
+        return supervisor
+
+    def get(self, request, pk, format=None):
+        supervisor = self.get_object(pk)
+        courses = Course_Info.objects.filter(departments=supervisor.department)
+        serializer2 = Course_InfoSerializer(courses, many=True)
+        return Response(serializer2.data)
+
 
 class AssignClassView(APIView):
     def get_object(self, pk):
