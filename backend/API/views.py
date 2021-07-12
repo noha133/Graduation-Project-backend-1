@@ -96,10 +96,9 @@ class TeacherView(APIView):
         def put(self, request, pk, format=None):
             try:
                 teacher = self.get_object(pk=pk)
-            except Student_Info.DoesNotExist:
+            except Teacher_Info.DoesNotExist:
                 return Response("Sorry! Doesn't Exist🙁")
-
-            serializer = StudentSerializer(teacher, data=request.data)
+            serializer = TeacherSerializer(teacher, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
