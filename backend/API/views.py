@@ -80,6 +80,21 @@ class StudentsClassView(APIView):
 
 
 
+class StudentsgradesClassView(APIView):
+    def get_object(self, pk):
+        return TeacherClasses.objects.get(pk=pk)
+
+    def get(self, request, pk, format=None):
+        try:
+            teacherclass = self.get_object(pk)
+            grades = Grade.objects.filter(Course_Info=teacherclass.Course_Info)
+        except Grade.DoesNotExist:
+            return Response("Sorry! Doesn't Exist🙁")
+
+        serializer = Grades(grades, many=True)
+        return Response(serializer.data)
+
+
 class TeacherView(APIView):
         def get_object(self, pk):
             return Teacher_Info.objects.get(pk=pk)
@@ -153,6 +168,7 @@ class SupervisorView(APIView):
         else:
             data["failure"] = "Delete failed😢"
         return Response(data=data)
+
 
 class CLassView(APIView):
     def get_object(self, pk):

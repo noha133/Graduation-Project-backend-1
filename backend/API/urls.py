@@ -30,6 +30,7 @@ urlpatterns = [
     # path('scourses/', views.StudentCourseView.as_view()),
     path('tcourses/<int:pk>/', views.TeacherCourseView.as_view()),
     path('students/<int:pk>/', views.StudentsClassView.as_view()),
+    path('studentsgrades/<int:pk>/', views.StudentsgradesClassView.as_view()),
     # path('tcourses/', views.TeacherCourseView.as_view()),
     path('grades/<int:pk>/', views.GradeView.as_view()),
     # path('grades/', views.GradeView.as_view()),

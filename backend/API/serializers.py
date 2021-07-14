@@ -108,3 +108,8 @@ class Class(serializers.ModelSerializer):
     class Meta:
         model = ClassName
         fields = '__all__'
+
+class Grades(serializers.ModelSerializer):
+    class Meta:
+        model = Grade
+        fields = '__all__'
